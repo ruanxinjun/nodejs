@@ -1,14 +1,19 @@
-const http = require('http');
-
-const hostname = '127.0.0.1';
+//import http module
+var http = require('http');
+//response header
+const content_type= {'content-type':'text/plain'};
+//port
 const port = 3000;
+//ipaddress:default localserver
+const ipaddr = '127.0.0.1';
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+//create server instance
+var server = http.createServer(function (req,res) {
+	res.writeHead(200,content_type);
+	res.end('hello nodejs \n');
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
+//listen server
+server.listen(port,ipaddr);
+//print
+console.log('nodejs is runing');
