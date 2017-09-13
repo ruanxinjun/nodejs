@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>promise antimation</title>
+	<style>
+	.ball{width:40px;height: 40px;border-radius:20px;position:absolute;left:0;}
+	.ball1{background:red;}
+	.ball2{background:yellow;}
+	.ball3{background:green;}
+	</style>
+	
+	<script src="node_modules/bluebird/js/browser/bluebird.js"></script>
+	<script>
+		function showmessage(msg){
+			document.getElementById('result').innerHTML = msg;
+		}
+		function runAsync1(){
+				var p1 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('aaa');
+						showmessage('aaa');
+					},1000);
+				});
+				return p1;
+			};
+
+			function runAsync2(){
+				var p2 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('bbb');
+					},1000);
+				});
+				return p2;
+			};
+
+			function runAsync3(){
+				var p3 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						showmessage('ccc');
+						resolve('ccc');
+					},1000);
+				});
+				return p3;
+			};
+
+			function runAsync4(){
+				var p4 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+					  	var num = Math.ceil(Math.random()*10); //生成1-10的随机数
+			            if(num<=2){
+			                resolve('yes:'+num);
+			            }
+			            else{
+			                reject(new Error('i am wrong'));
+			            }
+					},1000);
+				});
+				return p4;
+			};
+
+			// runAsync1().then(
+			// 	function(data){
+			// 		showmessage(data);
+			// 		runAsync2().then(function(data){
+			// 			showmessage(data);
+			// 			runAsync3().then(function(data){
+			// 				showmessage(data);
+			// 				runAsync4().then(function(data){
+			// 					showmessage(data);
+			// 				},function(reason,data){
+			// 					showmessage(reason+'...'+data);
+			// 				});
+			// 			});
+			// 		});
+			// 	}
+			// );
+			// 
+			
+			runAsync1()
+				.then(function(data){showmessage(data);return runAsync2();})
+				.then(function(data){showmessage(data);return runAsync3();})
+				.then(function(data){showmessage(data);return runAsync4();})
+				.then(function(data){showmessage(data);},function(reason,data){showmessage(reason+'...');});
+			;
+			
+	</script>
+</head>
+<body>
+<!-- 	<div class="ball ball1" style="margin-left:0"></div>
+	<div class="ball ball2" style="margin-left:0"></div>
+	<div class="ball ball3" style="margin-left:0"></div> -->
+	<div id="result"></div>
+</body>
+</html>
