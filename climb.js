@@ -15,12 +15,25 @@ function filterChap(html){
 	return menuarray;
 }
 
-http.get(url,function(res){
-	var html = '';
-	res.on('data',function(data){
-		html+=data;
+var autoClimb = function(){
+	return new Promise(function(resolve,reject){
+		http.get(url,function(res){
+		var html = '';
+		res.on('data',function(data){
+			html+=data;
+		});
+		res.on('end',function(){
+			var data = filterChap(html);
+			resolve(data);
+		});
+		res.on('error',function(e){
+			reject(e.message);
+		});
 	});
-	res.on('end',function(){
-		console.log(filterChap(html));
 	});
+}
+
+// autoClimb();
+Promise.all([autoClimb(),autoClimb()]).then(function(data){
+	console.log(data);
 });
