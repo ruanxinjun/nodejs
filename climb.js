@@ -34,6 +34,6 @@ var autoClimb = function(){
 }
 
 // autoClimb();
-Promise.all([autoClimb(),autoClimb()]).then(function(data){
+Promise.all([autoClimb()]).then(function(data){
 	console.log(data);
 });

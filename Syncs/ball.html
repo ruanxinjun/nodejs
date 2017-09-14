@@ -15,36 +15,33 @@
 			document.getElementById('result').innerHTML = msg;
 		}
 		function runAsync1(){
-				var p1 = new Promise(function(resolve,reject){
+				return new Promise(function(resolve,reject){
 					setTimeout(function(){
 						resolve('aaa');
 						showmessage('aaa');
 					},1000);
 				});
-				return p1;
 			};
 
 			function runAsync2(){
-				var p2 = new Promise(function(resolve,reject){
+				return new Promise(function(resolve,reject){
 					setTimeout(function(){
 						resolve('bbb');
 					},1000);
 				});
-				return p2;
 			};
 
 			function runAsync3(){
-				var p3 = new Promise(function(resolve,reject){
+				return new Promise(function(resolve,reject){
 					setTimeout(function(){
 						showmessage('ccc');
 						resolve('ccc');
 					},1000);
 				});
-				return p3;
 			};
 
 			function runAsync4(){
-				var p4 = new Promise(function(resolve,reject){
+				return new Promise(function(resolve,reject){
 					setTimeout(function(){
 					  	var num = Math.ceil(Math.random()*10); //生成1-10的随机数
 			            if(num<=2){
@@ -55,7 +52,6 @@
 			            }
 					},1000);
 				});
-				return p4;
 			};
 
 			// runAsync1().then(
