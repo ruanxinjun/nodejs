@@ -5,13 +5,15 @@
 <title></title>
 <script type="text/javascript">
 		
+		'use strict'
 		var Dropdownlist = (function(){
 			
 			var $ = function(id){
 				return document.getElementById(id);
 			};
+
 			var options = {
-					items:[{"name":"浙江","id":1},{"name":"湖北","id":2}],
+					provinceitems:[{"name":"浙江","id":1},{"name":"湖北","id":2}],
 					cityitems:[
 						{
 							"provinceid":1,
@@ -24,12 +26,14 @@
 					]
 			};
 
-			var _initdata  = function(datas){
-				options = datas?datas:options;
-			};
-
 			var __addOptions = function(obj,text,value){
 				$(obj).options.add(new Option(text,value));
+			};
+
+			var __getOptions= function(items,id){
+				items.forEach(function(value,index){
+					__addOptions(id,value.name,value.id);
+				});
 			};
 
 			var __loadCityData  = function(provinceid,city){
@@ -38,38 +42,26 @@
 				});
 				if(citydata){
 					$(city).options.length=0;
-					citydata.subitems.forEach(function(value,index){
-					__addOptions(city,value.name,value.id);
-					});
+					__getOptions(citydata.subitems,city);
 				};
 			};
 
-			var _binds = function(province,city){
-				options.items.forEach(function(value,index){
-					__addOptions(province,value.name,value.id);
-				});
+			var binds = function(province,city){
+				__getOptions(options.provinceitems,province);
 				$(province).onchange = function(){
-					$('status').innerHTML = this.id+'-----：'+this.options[this.selectedIndex].text+',----:'+this.value;
 					__loadCityData(this.value,city);
 				};
 				
 			};
 
 			return {
-				initdata:_initdata,
-				binds :_binds
+				Binds :binds
 			};
 	})();
 
 	window.onload=function(){
-		
-		var subdata = {
-			items:[{"name":"陕西","id":6},{"name":"宁夏","id":7}]
-		};
 
-
-		Dropdownlist.initdata();
-		Dropdownlist.binds('province','city');
+		Dropdownlist.Binds('a','b');
 
 
 		// var datas = {
@@ -82,8 +74,8 @@
 </script>	
 </head>
 <body>
-<select id="province"></select>
-<select id="city"></select>
+<select id="a"></select>
+<select id="b"></select>
 <div id="status"></div>	
 </body>
 </html>
