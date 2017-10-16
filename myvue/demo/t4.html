@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>
+
+</head>
+<body>
+	<div id="show">
+	{{message.split('').reverse().join('')}}
+	<hr/>
+	{{reverse}}
+	<hr/>
+	<button id="btn" @click="changeMsg">变换</button>
+	<hr/>
+	{{hello}}
+	</div>
+<script>
+var app = new Vue({
+	el:'#show',
+	data:{
+		message:'show message'
+	},
+	beforeCreate:function(){
+		console.log('before create');
+	},
+	created:function(){
+		console.log(this.message);
+	},
+	computed:{
+		reverse:function(value){
+			return this.message.split('').reverse().join('');
+		},
+		hello:{
+			get:function(){
+				return this.message;
+			},
+			set:function(value){
+				this.message=value;
+			}
+
+		}
+	},
+	methods:{
+		changeMsg:function(){
+			this.message="yes ,have change";
+		}
+	}
+});	
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>	
+<script src="../public/vue.min.js"></script>
+</head>
+<body>
+<div id="show">
+	<ul>
+		<newslist v-for="item in list" :list="item" :key="item.id"></newslist>
+	</ul>
+	<alert :waring="waring"></alert>
+</div>
+<script>
+	Vue.component('newslist',{	
+		props:['list'],
+		template:'<li>{{list.id}}---{{list.value}}</li>',
+	});
+	Vue.component('alert',{
+		props:['waring'],
+		template:'<p>{{waring}}</p><hr/>'
+	});
+	var app = new Vue({
+		el:'#show',
+		data:{
+			list:[
+				{id:1,value:'橘子'},
+				{id:2,value:'苹果'},
+				{id:3,value:'梨汁'}
+			],
+			waring:'this is waring message,please read carefully'
+		}
+	});
+</script>	
+</body>
+</html>

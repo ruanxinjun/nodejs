@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+<title></title>
+
+</head>
+<body>
+<div id="show" v-if="seen" :title="message">{{message}}<hr/>
+<ul>
+	<li v-for="li in list">
+		{{li.title}}
+	</li>
+</ul>
+<button @click="showMessage">点击事件</button>
+
+<p>{{price*num}}</p>
+<input v-model="price"/>
+<input v-model="num"/>
+
+
+</div>
+<script src="../public/vue.min.js"></script>	
+<script>
+var U = new Vue({
+	el:'#show',
+	data:{
+		seen:true,
+		message:'fackyou',
+		price:12,
+		num:12,
+		list:[
+		{title:'abc'},
+		{title:'def'},
+		{title:'ghi'}
+		]
+	},
+	methods:{
+		showMessage:function(){
+			this.message+=',cao you';
+		}
+	}
+});	
+</script>
+<hr/>
+<button id="btn" onclick="U.list.push({title:'jkl'})">Show Me The Money</button>
+<button onclick="U.seen = U.seen?false:true">显示与否</button>  
+</body>
+</html>

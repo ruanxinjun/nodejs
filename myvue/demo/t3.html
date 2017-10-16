@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>
+
+</head>
+<body>
+	<div id="show"></div>
+<script>
+var datas = {a:1};
+var app = new Vue({
+	el:'#show',
+	data:datas
+});	
+console.log(app.$el===document.getElementById('show'));
+console.log(app.$data==datas);
+</script>
+</body>
+</html>
