@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>
+<style>
+.error{background:red;color:white;border:1px solid #ccc;padding:5px;border-radius:10px;}
+.success{background:green;color:white;border:1px solid #ccc;padding:5px;border-radius:10px;}
+.warning{background:blue;color:white;border:1px solid #ccc;padding:5px;border-radius:10px;}
+</style>	
+</head>
+<body>
+<div id="containers">
+	<div v-bind:class="[myclass=inputs==''?'error':myclass]">i love you</div>
+	<input type="text" v-model="inputs"><hr/>
+	<lists v-bind:class="[myclass=inputs==''?'error':myclass]"/>
+</div>
+
+<script>
+
+	Vue.component('lists',{
+		template:'<p>FCKYOU</p>'
+	});
+
+	var apps = new Vue({
+		el:'#containers',
+		data:{
+			myclass:'',
+			inputs:''
+		},
+		watch:{
+			inputs:function(newinput){
+				this.myclass=newinput=='fack'?'warning':'success';
+				this.myclass = newinput==''?'error':this.myclass;
+			}
+		}
+
+	});
+</script>	
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>	
+</head>
+<body>
+<div id="div1">
+	<input type="text" v-model="msg"/>
+	<my-com v-bind:msg="msg" v-bind:show="show" :msg_child="ABC"></my-com>
+	<button @click="sayShow('fackyou')">FACKYOU</button>
+	<div v-bind:title="tmp.msgs">sfsdfsf</div>
+</div>
+<script> 	
+	var app = new Vue({
+		el:'#div1',
+		data:
+		{
+			msg:'this is parent msg!!!',
+			show:'show me the money',
+			tmp:{
+				msgs:'a',
+				shows:'b'
+			}value_name: value,
+		},
+		methods:{
+			sayShow:function(showmsg){
+				this.msg=showmsg;
+				this.show=showmsg.split('').reverse().join('');
+			}
+		},
+		components:{
+			'my-com':{
+				props:['msg','show','tmp'],
+				template:'<div>{{msg}}--{{show}}</div>',
+				data:function(){
+					return {msg_child:'this is message test'}
+				}
+			}
+		}
+	});
+</script>
+</body>
+</html>

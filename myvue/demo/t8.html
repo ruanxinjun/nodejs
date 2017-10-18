@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<template v-if='login'>
+			<div title="登录成功">登录成功</div>
+		</template>
+		<template v-else>
+			<label>username</label>
+			<input type="text" placeholder="enter you username"/>
+			<ul>
+				<li v-for="(item,index) of userlist" :key="item.username" v-if="item.age>20">
+					{{index+1}}---{{item.username}}--{{item.age}}
+				</li>
+			</ul>
+		</template>
+		<div><button id="btn" @click="togglelogin">登录系统</button></div>
+		<div><button id="btn2" @click="pushuser">系统推广</button></div>
+	</div>
+<script>
+	var app = new Vue({
+		el:'#container',
+		data:{
+			login:false,
+			userlist:[	
+					{username:'rxj',age:12},
+					{username:'cld',age:15},
+					{username:'rlj',age:24},
+					{username:'cjh',age:25}			
+			]
+		},
+		methods:{
+			togglelogin:function(){
+				this.login=this.login?false:true;
+			},
+			pushuser:function(){
+				this.userlist  = this.userlist.filter(function(fv){
+					return fv.username.match(/r/);
+				});
+			}
+		}
+	})
+</script>	
+</body>
+</html>

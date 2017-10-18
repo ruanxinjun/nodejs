@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<p id="infodiv" :style="[styleObject,addObject]">This is Bind Style Demo</p>
+		<list :message="message" :title="message"></list>
+	</div>
+<script>
+	Vue.component('list',{
+		props:['message'],
+		template:'<div>{{message}}</div>'
+	});
+
+	var app = new Vue({
+		el:'#container',
+		data:{
+			styleObject:{
+				borderRadius:'40px',
+				width:300,
+				height:300,
+				background:'blue'
+			},
+			addObject:{
+				color:'white',
+				fontSize:'12pt',
+			},
+			message:'地价款发动机反垄断家乐福'
+		}
+	});
+</script>
+</body>
+</html>
