@@ -5,11 +5,11 @@
 	<meta name=description content="">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<title></title>
-<script src="../public/vue.js"></script>	
+<script src="../public/vue.min.js"></script>	
 <link rel="stylesheet" href="../public/dist/css/bootstrap.min.css">  
 <style>
- .up{color:red;font-weight: bold;font-size:12pt;border-bottom:5px solid red;}
- .down{color:green;font-weight: bold;font-size:12pt;border-bottom:5px solid green;}
+ .up{color:red;font-weight: bold;font-size:12pt;border-bottom:5px solid red;cursor:pointer;}
+ .down{color:green;font-weight: bold;font-size:12pt;border-bottom:5px solid green;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -17,22 +17,22 @@
 	<table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>姓名</th>
-                    <th :class="sortcss"  @click="sortStudents('age')">年龄</button></th>
-                    <th>院校</th> 
-                    <th  :class="sortcss" @click="sortStudents('salary')">工资</th>
+                    <th class="up"  @click="sortStudents('id',$event)">ID</th>
+                    <th class="up"  @click="sortStudents('name',$event)">姓名</th>
+                    <th class="up"  @click="sortStudents('age',$event)">年龄</button></th>
+                    <th class="up"  @click="sortStudents('school',$event)">院校</th> 
+                    <th class="up"  @click="sortStudents('salary',$event)">工资</th>
                     <th>操作</th>
                   </tr>
                 </thead>
                 <tbody>
-                	<tr v-for="(student,index,key) of students">
+                	<tr v-for="student in nowStudents" transition="fade">
                 		<td>{{student.id}}</td>
                 		<td>{{student.name}}</td>
                 		<td>{{student.age}}</td>
                 		<td>{{student.school}}</td>
                 		<td>{{student.salary}}</td>
-                		<td><button class="btn btn-primary btn-sm" @click="rmStudent(index)">删除--{{index}}</button></td>
+                		<td><button class="btn btn-primary btn-sm">删除</button></td>
                 	</tr>
                 	<tr>
                 		<td></td>
@@ -40,24 +40,25 @@
                 		<td></td>
                 		<td></td>
                 		<td>{{totalsalary}}</td>
+                		<td>total:{{totalcount}}</td>
                 	</tr>
     </tbody>
     </table>   
    <div class="form-group">
-   	<label class="control-label">姓名：</label>
-     <input class="form-control" id="name" v-model="sinstudent.name"/>
+   	<label class="control-label">姓名：{{sinstudent.name}}</label>
+     <input class="form-control" v-model="sinstudent.name"/>
    </div> 
     <div class="form-group">
-   	<label class="control-label">年龄：</label>
-   	<input class="form-control" id="age" v-model="sinstudent.age"/>
+   	<label class="control-label">年龄：{{sinstudent.age}}</label>
+   	<input class="form-control" v-model="sinstudent.age"/>
    </div>
     <div class="form-group">
-   	<label class="control-label">院校：</label>
-   	<input class="form-control" id="school" v-model="sinstudent.school"/>
+   	<label class="control-label">院校：{{sinstudent.school}}</label>
+   	<input class="form-control" v-model="sinstudent.school"/>
    </div> 
     <div class="form-group">
-   	<label class="control-label">工资：</label>
-   	<input class="form-control" id="salary" v-model="sinstudent.salary"/>
+   	<label class="control-label">工资：{{sinstudent.salary}}</label>
+   	<input class="form-control"  v-model="sinstudent.salary"/>
    </div>  
    <div class="form-group">
    		<button class="btn btn-lg btn-success" @click="addStudent">添加</button>
@@ -65,11 +66,11 @@
 </div>
 
 <script>
+	import _ from 'node_modules/lodash';
 	var app = new Vue({
 		el:'#container',
 		data:{
-			sortfd:'',
-			blasc:true,
+			sorts:'age',
 			sinstudent:{
 				id:0,
 				name:'',
@@ -77,18 +78,12 @@
 				school:'',
 				salary:0
 			},
-			sortcss:'up',
 			students:[
 				{id:101,name:'阮新军',age:25,school:'湖北大学',salary:5000},
 				{id:120,name:'何雨',age:27,school:'浙江大学机械工程',salary:4800},
 				{id:322,name:'沈龙凤',age:20,school:'清华大学物理系',salary:3500},
 				{id:395,name:'刘德华',age:32,school:'香港艺术大学',salary:5410}
 			]
-		},
-		watch:{
-			blasc:function(_blasc){
-				this.sortcss = _blasc?this.sortcss:'down';
-			}
 		},
 		computed:{
 			totalsalary:function(){
@@ -99,20 +94,33 @@
 			 		}
 			 	});
 			 	return salarycount;
+			},
+			totalcount:function(){
+				return this.students.length;
+			},
+			nowStudents:function(){
+				return _.orderBy(this.students,'age','desc');
 			}
 		},
 		methods:{
 			addStudent:function(){
 				this.sinstudent.id =(this.students[this.students.length-1].id)+1;
 				this.students.push(this.sinstudent);
-				this.sinstudent='';
+
 			},
 			rmStudent:function(index){
 				this.students.splice(index,1);
 			},
-			sortStudents:function(field){
-				this.blasc= !this.blasc;
-				this.sortfd = field;
+			sortStudents:function(field,event){
+				var tag = event.currentTarget;
+				tag.className = tag.className=='up'?'down':'up';
+				var asc = tag.className=='up'?true:false;
+				this.students.sort(function(sa,sb){
+					if(asc)
+					return eval("(sa."+field+")")>eval("(sb."+field+")")
+					else
+					return eval("(sa."+field+")")<eval("(sb."+field+")")
+				});
 			}
 		}
 	});
