@@ -5,12 +5,13 @@
 	<meta name=description content="">
 	<meta name=viewport content="width=device-width, initial-scale=1">
 	<title></title>
-<script src="../public/vue.min.js"></script>	
+<script src="../public/vue.js"></script>	
 </head>
 <body>
 <div id="container">
 	<p>{{message}}</p>
 	<my-com @addevent="addEvent('abc')"></my-com>
+	<my-checkbox v-model="foo" value="some value"></my-checkbox>
 </div>
 
 <script>
@@ -35,6 +36,23 @@
 			}
 		}
 	});
+
+	Vue.component('my-checkbox', {
+	  model: {
+	    prop: 'checked',
+	    event: 'change'
+	  },
+	  props: {
+	    checked: Boolean,
+	    value: String
+	  },
+	  template:'<input type="checkbox"/>',
+	  data:function(){
+	  	return {foo:'abc';}
+	  }
+	  // ...
+	});
+
 	var app = new Vue({
 		el:'#container',
 		data:

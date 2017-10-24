@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8>
+	<meta name=description content="">
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<title></title>
+<script src="../public/vue.min.js"></script>	
+</head>
+<body>
+<div id="container">
+	<input v-model="messagesss">
+	<button @click="callchildevent">call child events</button>
+	<my-comms v-bind:message="messagesss" v-on:nowshow="">
+		<span slot="b" @click="alert('ddddd')">这是一个掺入你让111</span>
+		<span slot="a">这是一个掺入你让222</span>
+	</my-comms>
+</div>
+<script>
+	Vue.component('myComms',{
+		props:{
+			message:{
+				type:String,
+				default:'fackyou'
+			}
+		},
+		data:function(){
+			return {msg:'this is msg'}
+		},
+		methods:
+		{
+			showmsg:function(){
+				this.msg+=' add it';
+				this.$emit('nowshow');
+				this.$parent.messagesss='black shelpp wall';
+			}
+		},
+		template:'<div><slot name="a"></slot>---{{message}}---{{msg}}<input v-model="msg"/>'+
+		'<button @click="showmsg">add it</button><slot name="b"></slot></div>'
+	});
+	var app = new Vue({
+		el:'#container',
+		data:{
+			messagesss:'show me the money'
+		},
+		methods:{
+			callchildevent:function(){
+				this.$children[0].showmsg();
+			}
+		}
+	});
+</script>
+</body>
+</html>
